@@ -1,0 +1,137 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-16T23:13:45.998Z",
+  "summary": "Diff adds a Motoko backend with per-principal maps for profiles/categories/transactions/receipts plus a React/TS frontend with auth-gated routing, sidebar layout, dashboard/transactions/calendar/categories routes, receipt upload UI, and several analytics/chart components. Several requirements cannot be fully confirmed from the truncated/omitted diffs, and some UI copy remains in English.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Backend transaction listing supports pagination, free-text search, filtering by date range/category/type, and sorting (newest/largest/smallest), and data persists across redeploy using the template’s standard persistence approach.",
+      "reason": "backend/main.mo is truncated and only shows in-memory Map structures; there is no visible implementation/evidence of pagination/search/filter/sort query parameters nor stable persistence across redeploy (e.g., stable vars / preupgrade/postupgrade).",
+      "evidence": [
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Provide endpoints to fetch both a thumbnail-sized rendition and the full receipt image stored in-canister.",
+      "reason": "Frontend shows receipt retrieval via useGetReceipt and displays the same fetched blob for both thumbnail (in a 48px box) and full modal; there is no evidence of a distinct thumbnail endpoint or thumbnail rendition generation/serving from the canister in the provided diff.",
+      "evidence": [
+        "frontend/src/components/transactions/ReceiptThumbnail.tsx",
+        "frontend/src/components/receipts/ReceiptPreviewModal.tsx",
+        "backend/main.mo (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Transactions list/table supports edit/delete, pagination, search, filters (date/category/type), and sorting (newest/largest/smallest).",
+      "reason": "The diff shows the transaction add/edit form dialog and receipt picker/thumbnail, but does not provide evidence of the transactions table/list UI with pagination/search/filters/sorting controls and behaviors.",
+      "evidence": [
+        "frontend/src/components/transactions/TransactionFormDialog.tsx (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Dashboard page shows KPIs, warning when expenses exceed income, quick-add transaction action, and the three chart types populated from user data.",
+      "reason": "Routes reference DashboardPage, and chart/insights components exist, but the Dashboard page implementation itself is not included in the shown diff, so the required KPI panel, warning, and quick-add flow cannot be verified.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/charts/IncomeExpenseBarChart.tsx",
+        "frontend/src/components/charts/ExpenseCategoryPieChart.tsx",
+        "frontend/src/components/charts/CashflowTrendLineChart.tsx",
+        "frontend/src/components/analytics/CashflowInsightsCard.tsx (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Calendar page renders monthly grid with daily income/expense totals, dominance styling, monthly summary, and click-on-day to view that day’s transactions.",
+      "reason": "A day-transactions modal component exists, but the actual Calendar page/grid/monthly summary and dominance styling implementation is not shown in the provided diff summary.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/calendar/DayTransactionsModal.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Category management UI includes list categories by type and add/edit/delete categories with color and optional icon.",
+      "reason": "A category form dialog is present (type/name/color/icon), but the categories listing page (including grouping by type and delete action) is not shown in the provided diff.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/categories/CategoryFormDialog.tsx (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "All user-facing UI copy is in Indonesian across the application; no English text remains.",
+      "reason": "Some visible strings are still English (e.g., navigation label 'Dashboard', theme toggle sr-only text, and footer 'Built with ... using').",
+      "evidence": [
+        "frontend/src/components/layout/SidebarNav.tsx",
+        "frontend/src/components/theme/ThemeToggle.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Caffeine.ai promotional footer with outbound link and 'Built with ... using ...' copy.",
+      "reason": "Not requested by any requirement; additionally conflicts with REQ-10 Indonesian-only UI copy due to English text.",
+      "evidence": [
+        "frontend/src/components/layout/SidebarNav.tsx"
+      ]
+    },
+    {
+      "description": "Admin secret token parameter ('caffeineAdminToken') used to initialize backend access control from URL query params.",
+      "reason": "Not requested; BuildRequest specifies Internet Identity auth and no mention of secret admin tokens passed via URL parameters.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Mandatory profile setup dialog (collecting user's name) gating the app after authentication.",
+      "reason": "Not requested by requirements (no profile onboarding requirement specified).",
+      "evidence": [
+        "frontend/src/components/auth/ProfileSetupDialog.tsx",
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/analytics/CashflowInsightsCard.tsx",
+    "frontend/src/components/auth/AccessDeniedScreen.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/calendar/DayTransactionsModal.tsx",
+    "frontend/src/components/categories/CategoryFormDialog.tsx",
+    "frontend/src/components/charts/CashflowTrendLineChart.tsx",
+    "frontend/src/components/charts/ExpenseCategoryPieChart.tsx",
+    "frontend/src/components/charts/IncomeExpenseBarChart.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/layout/Header.tsx",
+    "frontend/src/components/layout/SidebarNav.tsx",
+    "frontend/src/components/receipts/ReceiptPicker.tsx",
+    "frontend/src/components/receipts/ReceiptPreviewModal.tsx",
+    "frontend/src/components/theme/ThemeToggle.tsx",
+    "frontend/src/components/transactions/ReceiptThumbnail.tsx",
+    "frontend/src/components/transactions/TransactionFormDialog.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/i18n/id.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/CalendarPage.tsx",
+    "frontend/src/pages/CategoriesPage.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/TransactionsPage.tsx",
+    "frontend/src/utils/currency.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

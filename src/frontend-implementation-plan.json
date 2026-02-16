@@ -1,0 +1,332 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Finex Personal Finance — Frontend Implementation Plan",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Add Internet Identity login/logout UX, user-profile setup, and protected navigation states to ensure clear authenticated vs unauthenticated UI access.",
+      "acceptanceCriteria": [
+        "Users can sign in and sign out using Internet Identity.",
+        "All create/read/update/delete operations for categories, transactions, and receipts are scoped to the authenticated user and cannot be accessed by other users.",
+        "Unauthenticated users cannot access protected pages/data and are prompted to sign in."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the main app shell with protected routing, a logged-in/logged-out UI state, and top-level navigation wiring for Dashboard/Transaksi/Kalender/Kategori. Use the authorization component guidance to ensure users must be logged in before seeing any finance data; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Create a reusable login/logout button using the existing useInternetIdentity hook and React Query cache clearing behavior per the authorization component recommendations; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Create a first-login profile setup dialog (ask for user name) that calls getCallerUserProfile/saveCallerUserProfile and avoids modal flash using the authorization component guidance; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useGetCallerUserProfile.ts",
+          "operation": "create",
+          "description": "Add a React Query hook to fetch the current caller profile with correct loading states dependent on actor availability (per authorization guidance); verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "operation": "create",
+          "description": "Add an Indonesian access-denied / sign-in prompt screen for unauthorized/guest users trying to access protected areas; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement receipt image selection, validation, preview, upload flow, and in-app viewing (thumbnail + full preview modal).",
+      "acceptanceCriteria": [
+        "UI blocks uploads larger than 5MB and only accepts JPG/PNG.",
+        "Users can preview the receipt image before saving the transaction.",
+        "After saving, the transaction list shows a thumbnail for transactions with receipts.",
+        "Clicking a thumbnail opens a modal with a full-size receipt preview.",
+        "Receipt data is stored and served from the canister (no third-party storage)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/receipts/ReceiptPicker.tsx",
+          "operation": "create",
+          "description": "Create a receipt picker component for JPG/PNG that validates <= 5MB, generates an on-screen preview before save, and prepares image bytes for upload. Use the blob-storage component’s ExternalBlob/byte-handling concepts where applicable for robust blob handling; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/receipts/ReceiptPreviewModal.tsx",
+          "operation": "create",
+          "description": "Create a modal to show the full-size receipt preview (from local preview or fetched receipt bytes) when clicking a thumbnail; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useReceipts.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for uploading and retrieving receipts via backend.uploadReceipt/backend.getReceipt, including caching and loading/error states; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/transactions/ReceiptThumbnail.tsx",
+          "operation": "create",
+          "description": "Create a thumbnail renderer for transactions with receipts (derive a small preview from fetched bytes and/or cached object URL) and wire click-to-open full preview modal; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Build the Transactions page with add/edit form, list/table, and all list interactions (pagination, search, filters, sorting), including receipt integration and currency formatting.",
+      "acceptanceCriteria": [
+        "Users can add a new transaction and see it immediately in the list.",
+        "Users can edit and delete transactions from the list.",
+        "Amount input displays and stores values in a consistent currency format.",
+        "List supports pagination, search, filters (date/category/type), and sorting (newest/largest/smallest)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/TransactionsPage.tsx",
+          "operation": "create",
+          "description": "Create the Transaksi page: header actions, search/filter/sort controls, a paginated table/list with edit/delete, and a button to open the add transaction flow. Use shadcn-ui building blocks (cards, inputs, select, table, dialogs) for a premium UI; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/transactions/TransactionFormDialog.tsx",
+          "operation": "create",
+          "description": "Create an add/edit transaction dialog with fields: type, category dropdown, amount with auto currency formatting, date, note, and optional receipt (via ReceiptPicker). Use shadcn-ui dialog/form components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useTransactions.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listing/creating/updating/deleting transactions, plus search and type/category-based queries, mapping UI state (pagination/search/filter/sort) to backend calls; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/utils/currency.ts",
+          "operation": "create",
+          "description": "Add Indonesian currency formatting utilities (e.g., Rupiah display), plus parsing to the consistent stored bigint amount representation expected by the backend; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCategories.ts",
+          "operation": "create",
+          "description": "Add React Query hooks to fetch categories for dropdowns and management flows (including by-type lists), and invalidate related caches after mutations; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Transaksi route into the app navigation and ensure it is protected (requires authenticated state); verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Create the Dashboard page with KPI cards, charts, warning state, and quick-add transaction action.",
+      "acceptanceCriteria": [
+        "Dashboard shows the four headline KPIs and updates when transactions change.",
+        "Dashboard includes the three requested chart types populated from the user’s data.",
+        "A visible warning/notification appears when monthly expenses exceed monthly income.",
+        "Quick-add action opens the transaction creation flow with minimal friction."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Create the Dashboard page with KPI cards (saldo, pemasukan bulan ini, pengeluaran bulan ini, cashflow bersih), warning banner when expenses exceed income, and a quick-add action that opens the transaction creation dialog with minimal friction. Use shadcn-ui cards/badges/alerts; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/charts/IncomeExpenseBarChart.tsx",
+          "operation": "create",
+          "description": "Create a bar chart component (pemasukan vs pengeluaran) fed by user transaction aggregates; implement with lightweight SVG/canvas or existing chart primitives in the project while keeping responsive behavior; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/charts/ExpenseCategoryPieChart.tsx",
+          "operation": "create",
+          "description": "Create a pie chart component for distribution of expense categories for the current month; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/charts/CashflowTrendLineChart.tsx",
+          "operation": "create",
+          "description": "Create a 6-month cashflow trend line chart component using user transaction aggregates; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useDashboardMetrics.ts",
+          "operation": "create",
+          "description": "Add a hook that derives dashboard KPIs and chart datasets from transaction queries (and/or backend-provided insights where available), updating when underlying queries change; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Dashboard route into the app navigation and ensure it is protected (requires authenticated state); verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement a monthly transaction calendar with daily totals, dominance styling, monthly summary, and per-day drill-down transaction list.",
+      "acceptanceCriteria": [
+        "Calendar renders a monthly grid and displays daily totals for income and expense.",
+        "Days visually indicate whether income or expense is dominant using green/red styling.",
+        "Clicking a day opens (inline panel or modal) listing that day’s transactions.",
+        "Monthly summary aggregates match the underlying transactions."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CalendarPage.tsx",
+          "operation": "create",
+          "description": "Create the Kalender Transaksi page with a monthly grid, daily income/expense totals per day, green/red dominance styling, and a monthly summary section. Use shadcn-ui cards/popovers/dialogs where appropriate; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/calendar/DayTransactionsModal.tsx",
+          "operation": "create",
+          "description": "Create a modal (or inline drawer/panel) that lists transactions for the selected day when a date cell is clicked; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCalendarTotals.ts",
+          "operation": "create",
+          "description": "Add a hook that groups user transactions by date for the selected month and computes per-day totals and monthly aggregates; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Kalender route into the app navigation and ensure it is protected (requires authenticated state); verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Display cashflow analysis and insights computed from the user’s transaction history with modern health visuals and graceful empty-state handling.",
+      "acceptanceCriteria": [
+        "Analytics values (averages, insights, forecast, health indicator) are computed from the authenticated user’s transaction history.",
+        "Month-over-month insight is shown when sufficient data exists; otherwise the UI handles the empty/insufficient case gracefully.",
+        "Health indicator clearly shows one of: Safe, Warning, Overspending, with consistent visual styling.",
+        "Forecast is displayed and updates when transactions change."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/analytics/CashflowInsightsCard.tsx",
+          "operation": "create",
+          "description": "Create an insights card section (to embed on Dashboard) showing: average monthly income/expense, month-over-month change, largest expense category, end-of-month forecast, and a health indicator rendered as modern badges/progress visuals. Use shadcn-ui badge/progress components; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCashflowInsights.ts",
+          "operation": "create",
+          "description": "Add a React Query hook that calls backend.getCashflowInsights and refreshes/invalidates when transactions change, including Indonesian empty/insufficient-data messaging; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Embed the cashflow insights section into the Dashboard and ensure it updates as transaction data changes; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Build category management UI with grouped lists and add/edit/delete flows including color and optional icon.",
+      "acceptanceCriteria": [
+        "Users can create, edit, and delete categories.",
+        "Category form supports income/expense type, name, color, and optional icon.",
+        "Categories are immediately available in the transaction form dropdown."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CategoriesPage.tsx",
+          "operation": "create",
+          "description": "Create the Manajemen Kategori page: list categories grouped by income/expense, with add/edit/delete actions and clear Indonesian empty states. Use shadcn-ui tables/cards/tabs/dialogs; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/categories/CategoryFormDialog.tsx",
+          "operation": "create",
+          "description": "Create an add/edit category dialog with fields: type (income/expense), name, color picker input, and optional icon text field; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useCategories.ts",
+          "operation": "modify",
+          "description": "Extend category hooks to include create/update/delete mutations and correct cache invalidation so category changes immediately reflect in the transaction form dropdown; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the Kategori route into the app navigation and ensure it is protected (requires authenticated state); verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Apply a premium fintech visual system with responsive layout, collapsible sidebar, subtle animation, and light/dark mode toggle.",
+      "acceptanceCriteria": [
+        "App has a collapsible sidebar and responsive layout that works on mobile and desktop.",
+        "Light mode and dark mode are both available and can be toggled by the user.",
+        "Visual styling matches the specified palette and premium fintech aesthetic across all pages.",
+        "Transitions/animations are subtle and do not hinder usability."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create the global Tailwind/shadcn tokens and base styles, including premium fintech palette (deep navy primary, emerald secondary, soft gradient accents), glassmorphism-friendly surfaces, and dark mode variables; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a responsive layout with collapsible sidebar navigation, top bar, rounded cards, soft shadows, and subtle transitions. Use shadcn-ui layout primitives where appropriate; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/SidebarNav.tsx",
+          "operation": "create",
+          "description": "Create a collapsible sidebar navigation component (mobile-first with a compact state on desktop) that links to all required pages; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/theme/ThemeToggle.tsx",
+          "operation": "create",
+          "description": "Create a light/dark mode toggle that persists user preference (e.g., localStorage) and toggles the Tailwind dark class on the document root; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Adopt the new AppLayout shell so all pages share consistent premium fintech styling and navigation; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust/extend Tailwind theme tokens (if needed) to better match the fintech palette and ensure animations/transitions support the design requirements; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Ensure all user-facing UI copy across pages, forms, validations, and states is fully Indonesian.",
+      "acceptanceCriteria": [
+        "All visible UI strings are in Indonesian; no English text remains in the main product UI.",
+        "Forms and validation messages display Indonesian text consistently."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/i18n/id.ts",
+          "operation": "create",
+          "description": "Create a centralized Indonesian UI copy dictionary (navigation labels, buttons, empty states, validation errors, notifications) to avoid scattered English strings; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Replace any user-facing copy with Indonesian strings sourced from the central dictionary, including KPI labels, warnings, empty states, and chart titles; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/TransactionsPage.tsx",
+          "operation": "modify",
+          "description": "Ensure all Transaksi UI strings (filters, sorting labels, pagination, dialogs, validation, success/error messaging) are Indonesian and consistent; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CalendarPage.tsx",
+          "operation": "modify",
+          "description": "Ensure all Kalender UI strings (monthly summary labels, modal titles, empty states) are Indonesian; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CategoriesPage.tsx",
+          "operation": "modify",
+          "description": "Ensure all Kategori UI strings (form labels, delete confirmations, empty states) are Indonesian; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "operation": "modify",
+          "description": "Ensure sign-in prompts, unauthorized messaging, and any auth-related errors are Indonesian and user-friendly; verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

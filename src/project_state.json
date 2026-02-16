@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Web app Personal Finance Management (bahasa Indonesia) dengan UI fintech premium: dashboard visual, transaksi (CRUD, filter, upload bukti), kalender, analisis cashflow otomatis, manajemen kategori, serta autentikasi. Dibangun dengan stack platform (Motoko backend + React/TypeScript frontend + Internet Identity) dan penyimpanan di canister.",
+  "architectural_notes": [
+    "Gunakan stack bawaan platform: backend Motoko (canister) + frontend React/TypeScript.",
+    "Autentikasi menggunakan Internet Identity (mengganti JWT).",
+    "Penyimpanan data (users/categories/transactions) dan upload bukti transaksi disimpan di canister (blob/asset) dengan batas file 5MB."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-authentication-and-per-user-access-control-so-that-all-finance-data-categories-transactions-receipts-analytics-is-isolated-by-the-authenticated-principal-with-a-clear-logged-in-logged-out-state-in-the-ui",
+      "title": "Implement Internet Identity authentication and per-user access control so that all finance data (categories, transactions, receipts, analytics) is isolated by the authenticated principal, with a clear logged-in/logged-out state in the UI.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-receipt-image-upload-and-retrieval-stored-in-canister-accept-jpg-png-up-to-5mb-store-the-binary-data-and-a-stable-identifier-reference-on-the-transaction-and-provide-endpoints-to-fetch-a-thumbnail-sized-rendition-and-the-full-image",
+      "title": "Implement receipt image upload and retrieval stored in-canister: accept JPG/PNG up to 5MB, store the binary data and a stable identifier/reference on the transaction, and provide endpoints to fetch a thumbnail-sized rendition and the full image.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-transactions-experience-a-modern-form-to-add-edit-income-and-expense-transactions-type-category-dropdown-auto-currency-formatting-for-amount-date-note-optional-receipt-plus-a-transactions-table-list-with-edit-delete-pagination-search-filters-and-sorting",
+      "title": "Build the Transactions experience: a modern form to add/edit income and expense transactions (type, category dropdown, auto currency formatting for amount, date, note, optional receipt), plus a transactions table/list with edit/delete, pagination, search, filters, and sorting.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-dashboard-page-that-visualizes-the-user-s-current-financial-snapshot-current-balance-total-income-this-month-total-expense-this-month-net-cashflow-this-month-a-quick-add-transaction-action-charts-income-vs-expense-bar-chart-expense-category-distribution-pie-chart-6-month-cashflow-trend-line-chart-and-a-warning-when-expenses-exceed-income-for-the-current-month",
+      "title": "Create the Dashboard page that visualizes the user’s current financial snapshot: current balance, total income this month, total expense this month, net cashflow this month, a quick-add transaction action, charts (income vs expense bar chart, expense category distribution pie chart, 6-month cashflow trend line chart), and a warning when expenses exceed income for the current month.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-transaction-calendar-page-a-monthly-calendar-view-where-each-day-shows-total-income-and-total-expense-for-that-date-with-green-red-visual-dominance-a-monthly-summary-section-and-click-on-day-to-view-the-list-of-that-day-s-transactions",
+      "title": "Implement the Transaction Calendar page: a monthly calendar view where each day shows total income and total expense for that date, with green/red visual dominance, a monthly summary section, and click-on-day to view the list of that day’s transactions.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-automatic-cashflow-analysis-and-insights-calculated-from-the-user-s-transactions-average-monthly-income-average-monthly-expense-month-over-month-change-insights-largest-expense-category-for-the-current-month-a-simple-end-of-month-balance-forecast-and-a-health-indicator-safe-warning-overspending-displayed-with-modern-badges-progress-visuals",
+      "title": "Implement automatic cashflow analysis and insights calculated from the user’s transactions: average monthly income, average monthly expense, month-over-month change insights, largest expense category for the current month, a simple end-of-month balance forecast, and a health indicator (Safe/Warning/Overspending) displayed with modern badges/progress visuals.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-category-management-ui-list-categories-by-type-income-expense-add-edit-delete-categories-and-allow-selecting-a-color-and-optional-icon-field",
+      "title": "Build Category Management UI: list categories by type (income/expense), add/edit/delete categories, and allow selecting a color and optional icon field.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-premium-fintech-visual-design-consistently-across-the-app-modern-clean-minimal-layout-deep-navy-dark-blue-primary-with-emerald-green-secondary-and-soft-gradient-accents-rounded-cards-soft-shadows-with-light-glassmorphism-responsive-mobile-first-behavior-smooth-transitions-animations-collapsible-sidebar-navigation-and-a-working-light-dark-mode-toggle",
+      "title": "Apply a premium fintech visual design consistently across the app: modern clean minimal layout, deep navy/dark blue primary with emerald green secondary and soft gradient accents, rounded cards, soft shadows with light glassmorphism, responsive mobile-first behavior, smooth transitions/animations, collapsible sidebar navigation, and a working light/dark mode toggle.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-all-user-facing-ui-copy-is-in-indonesian-across-the-application-navigation-labels-buttons-empty-states-validation-errors-and-notifications",
+      "title": "Ensure all user-facing UI copy is in Indonesian across the application (navigation, labels, buttons, empty states, validation errors, and notifications).",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "UI/UX fintech premium (clean, glassmorphism ringan, responsive mobile-first, animasi halus), sidebar collapsible, toggle dark/light mode, bahasa Indonesia",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Authentication & security dengan Internet Identity (login/logout) dan proteksi akses per-user",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Dashboard ringkasan keuangan: saldo, pemasukan/pengeluaran bulan ini, selisih cashflow, quick add, notifikasi jika pengeluaran > pemasukan, serta grafik (bar/pie/line)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Manajemen transaksi pemasukan/pengeluaran: tambah/edit/hapus, form (kategori, nominal currency, tanggal, catatan), pagination, search, filter (tanggal/kategori/jenis), sorting",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Upload bukti transaksi (JPG/PNG) dengan preview, batas 5MB, simpan blob di canister + path/identifier, thumbnail list & modal preview full image",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Kalender transaksi bulanan: total pemasukan/pengeluaran per tanggal, warna hijau/merah, klik tanggal tampil daftar transaksi, summary bulanan",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Analisis cashflow otomatis: rata-rata bulanan, insight (kenaikan/penurunan, kategori terbesar), forecast saldo akhir bulan, health indicator (Aman/Waspada/Boros) dengan indikator modern",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Manajemen kategori per user: tambah/edit/hapus, type income/expense, warna, icon (opsional)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Create the backend data model and persistence in the single Motoko actor to support: categories (income/expense, name, color, optional icon) and transactions (type, category, amount, date, note, optional receipt reference), including full CRUD operations and queries needed by the UI (list with pagination, search, filters, sorting).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Finex Personal Finance",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

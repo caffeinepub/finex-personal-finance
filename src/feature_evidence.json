@@ -1,0 +1,212 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-authentication-and-per-user-access-control-so-that-all-finance-data-categories-transactions-receipts-analytics-is-isolated-by-the-authenticated-principal-with-a-clear-logged-in-logged-out-state-in-the-ui",
+      "featureTitle": "Implement Internet Identity authentication and per-user access control so that all finance data (categories, transactions, receipts, analytics) is isolated by the authenticated principal, with a clear logged-in/logged-out state in the UI.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/AccessDeniedScreen.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-receipt-image-upload-and-retrieval-stored-in-canister-accept-jpg-png-up-to-5mb-store-the-binary-data-and-a-stable-identifier-reference-on-the-transaction-and-provide-endpoints-to-fetch-a-thumbnail-sized-rendition-and-the-full-image",
+      "featureTitle": "Implement receipt image upload and retrieval stored in-canister: accept JPG/PNG up to 5MB, store the binary data and a stable identifier/reference on the transaction, and provide endpoints to fetch a thumbnail-sized rendition and the full image.",
+      "files": [
+        "frontend/src/components/receipts/ReceiptPicker.tsx",
+        "frontend/src/components/receipts/ReceiptPreviewModal.tsx",
+        "frontend/src/components/transactions/ReceiptThumbnail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-the-transactions-experience-a-modern-form-to-add-edit-income-and-expense-transactions-type-category-dropdown-auto-currency-formatting-for-amount-date-note-optional-receipt-plus-a-transactions-table-list-with-edit-delete-pagination-search-filters-and-sorting",
+      "featureTitle": "Build the Transactions experience: a modern form to add/edit income and expense transactions (type, category dropdown, auto currency formatting for amount, date, note, optional receipt), plus a transactions table/list with edit/delete, pagination, search, filters, and sorting.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/transactions/TransactionFormDialog.tsx",
+        "frontend/src/pages/TransactionsPage.tsx",
+        "frontend/src/utils/currency.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-the-dashboard-page-that-visualizes-the-user-s-current-financial-snapshot-current-balance-total-income-this-month-total-expense-this-month-net-cashflow-this-month-a-quick-add-transaction-action-charts-income-vs-expense-bar-chart-expense-category-distribution-pie-chart-6-month-cashflow-trend-line-chart-and-a-warning-when-expenses-exceed-income-for-the-current-month",
+      "featureTitle": "Create the Dashboard page that visualizes the user’s current financial snapshot: current balance, total income this month, total expense this month, net cashflow this month, a quick-add transaction action, charts (income vs expense bar chart, expense category distribution pie chart, 6-month cashflow trend line chart), and a warning when expenses exceed income for the current month.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/charts/CashflowTrendLineChart.tsx",
+        "frontend/src/components/charts/ExpenseCategoryPieChart.tsx",
+        "frontend/src/components/charts/IncomeExpenseBarChart.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-the-transaction-calendar-page-a-monthly-calendar-view-where-each-day-shows-total-income-and-total-expense-for-that-date-with-green-red-visual-dominance-a-monthly-summary-section-and-click-on-day-to-view-the-list-of-that-day-s-transactions",
+      "featureTitle": "Implement the Transaction Calendar page: a monthly calendar view where each day shows total income and total expense for that date, with green/red visual dominance, a monthly summary section, and click-on-day to view the list of that day’s transactions.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/calendar/DayTransactionsModal.tsx",
+        "frontend/src/pages/CalendarPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-automatic-cashflow-analysis-and-insights-calculated-from-the-user-s-transactions-average-monthly-income-average-monthly-expense-month-over-month-change-insights-largest-expense-category-for-the-current-month-a-simple-end-of-month-balance-forecast-and-a-health-indicator-safe-warning-overspending-displayed-with-modern-badges-progress-visuals",
+      "featureTitle": "Implement automatic cashflow analysis and insights calculated from the user’s transactions: average monthly income, average monthly expense, month-over-month change insights, largest expense category for the current month, a simple end-of-month balance forecast, and a health indicator (Safe/Warning/Overspending) displayed with modern badges/progress visuals.",
+      "files": [
+        "frontend/src/components/analytics/CashflowInsightsCard.tsx",
+        "frontend/src/pages/DashboardPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-category-management-ui-list-categories-by-type-income-expense-add-edit-delete-categories-and-allow-selecting-a-color-and-optional-icon-field",
+      "featureTitle": "Build Category Management UI: list categories by type (income/expense), add/edit/delete categories, and allow selecting a color and optional icon field.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/categories/CategoryFormDialog.tsx",
+        "frontend/src/pages/CategoriesPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-premium-fintech-visual-design-consistently-across-the-app-modern-clean-minimal-layout-deep-navy-dark-blue-primary-with-emerald-green-secondary-and-soft-gradient-accents-rounded-cards-soft-shadows-with-light-glassmorphism-responsive-mobile-first-behavior-smooth-transitions-animations-collapsible-sidebar-navigation-and-a-working-light-dark-mode-toggle",
+      "featureTitle": "Apply a premium fintech visual design consistently across the app: modern clean minimal layout, deep navy/dark blue primary with emerald green secondary and soft gradient accents, rounded cards, soft shadows with light glassmorphism, responsive mobile-first behavior, smooth transitions/animations, collapsible sidebar navigation, and a working light/dark mode toggle.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/components/layout/SidebarNav.tsx",
+        "frontend/src/components/theme/ThemeToggle.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-all-user-facing-ui-copy-is-in-indonesian-across-the-application-navigation-labels-buttons-empty-states-validation-errors-and-notifications",
+      "featureTitle": "Ensure all user-facing UI copy is in Indonesian across the application (navigation, labels, buttons, empty states, validation errors, and notifications).",
+      "files": [
+        "frontend/src/components/auth/AccessDeniedScreen.tsx",
+        "frontend/src/i18n/id.ts",
+        "frontend/src/pages/CalendarPage.tsx",
+        "frontend/src/pages/CategoriesPage.tsx",
+        "frontend/src/pages/DashboardPage.tsx",
+        "frontend/src/pages/TransactionsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

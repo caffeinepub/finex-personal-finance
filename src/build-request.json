@@ -1,0 +1,214 @@
+{
+  "kind": "build_request",
+  "title": "Personal Finance Management Web App (Fintech Premium UI)",
+  "projectName": "Finex Personal Finance",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement Internet Identity authentication and per-user access control so that all finance data (categories, transactions, receipts, analytics) is isolated by the authenticated principal, with a clear logged-in/logged-out state in the UI.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Authentication & Security\nLogin\nRegister\nPassword hashing\nJWT authentication",
+          "1. oke saya terima 2. yaudah oke gapapa 3. oke bro gas gapapa   ready"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can sign in and sign out using Internet Identity.",
+        "All create/read/update/delete operations for categories, transactions, and receipts are scoped to the authenticated user and cannot be accessed by other users.",
+        "Unauthenticated users cannot access protected pages/data and are prompted to sign in."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create the backend data model and persistence in the single Motoko actor to support: categories (income/expense, name, color, optional icon) and transactions (type, category, amount, date, note, optional receipt reference), including full CRUD operations and queries needed by the UI (list with pagination, search, filters, sorting).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "🗄 DATABASE STRUCTURE (WAJIB DIBUATKAN)\nTable: categories ...\nTable: transactions ...",
+          "2️⃣ Pemasukan & Pengeluaran (Transactions)\n... Edit & Delete transaksi\nPagination\nSearch transaksi\nFilter ... Sorting ...",
+          "6️⃣ Manajemen Kategori\nTambah kategori\nEdit kategori\nHapus kategori\nIcon kategori (opsional)\nWarna kategori"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes methods to create, update, delete, and list categories per user.",
+        "Backend exposes methods to create, update, delete, and list transactions per user.",
+        "Transaction listing supports: pagination, free-text search, filtering by date range, category, and type, and sorting (newest, largest, smallest).",
+        "Data persists across refresh/reload and remains available after redeploy within the template’s standard persistence approach (no external database)."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement receipt image upload and retrieval stored in-canister: accept JPG/PNG up to 5MB, store the binary data and a stable identifier/reference on the transaction, and provide endpoints to fetch a thumbnail-sized rendition and the full image.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "5️⃣ 🧾 Upload Bukti Transaksi\nSimpan file gambar ke server / cloud storage\nSimpan path di database\nTampilkan thumbnail di daftar transaksi\nBisa klik untuk melihat full image modal preview\nBatasi ukuran file maksimal 5MB",
+          "3. oke bro gas gapapa   ready"
+        ]
+      },
+      "acceptanceCriteria": [
+        "UI blocks uploads larger than 5MB and only accepts JPG/PNG.",
+        "Users can preview the receipt image before saving the transaction.",
+        "After saving, the transaction list shows a thumbnail for transactions with receipts.",
+        "Clicking a thumbnail opens a modal with a full-size receipt preview.",
+        "Receipt data is stored and served from the canister (no third-party storage)."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Build the Transactions experience: a modern form to add/edit income and expense transactions (type, category dropdown, auto currency formatting for amount, date, note, optional receipt), plus a transactions table/list with edit/delete, pagination, search, filters, and sorting.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "2️⃣ Pemasukan & Pengeluaran (Transactions)\nForm tambah transaksi berisi:\nJenis transaksi ...\nKategori (dropdown)\nNominal (format currency otomatis)\nTanggal\nCatatan\nUpload bukti transaksi ...\nFitur tambahan:\nEdit & Delete transaksi\nPagination\nSearch transaksi\nFilter ...\nSorting ..."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can add a new transaction and see it immediately in the list.",
+        "Users can edit and delete transactions from the list.",
+        "Amount input displays and stores values in a consistent currency format.",
+        "List supports pagination, search, filters (date/category/type), and sorting (newest/largest/smallest)."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Create the Dashboard page that visualizes the user’s current financial snapshot: current balance, total income this month, total expense this month, net cashflow this month, a quick-add transaction action, charts (income vs expense bar chart, expense category distribution pie chart, 6-month cashflow trend line chart), and a warning when expenses exceed income for the current month.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "1️⃣ Dashboard (Halaman Utama)\nTampilkan ringkasan keuangan secara visual:\nTotal saldo saat ini\nTotal pemasukan bulan ini\nTotal pengeluaran bulan ini\nSelisih cashflow bulan ini\nGrafik:\nBar chart pemasukan vs pengeluaran\nPie chart distribusi kategori pengeluaran\nLine chart tren cashflow 6 bulan terakhir\nQuick add transaction button\nNotifikasi jika pengeluaran > pemasukan"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Dashboard shows the four headline KPIs and updates when transactions change.",
+        "Dashboard includes the three requested chart types populated from the user’s data.",
+        "A visible warning/notification appears when monthly expenses exceed monthly income.",
+        "Quick-add action opens the transaction creation flow with minimal friction."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement the Transaction Calendar page: a monthly calendar view where each day shows total income and total expense for that date, with green/red visual dominance, a monthly summary section, and click-on-day to view the list of that day’s transactions.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "3️⃣ 📅 Kalender Transaksi\nHalaman khusus kalender:\nTampilan monthly calendar\nSetiap tanggal menampilkan:\nTotal pengeluaran hari itu\nTotal pemasukan hari itu\nKlik tanggal → muncul daftar transaksi hari tersebut\nWarna berbeda:\nHijau = dominan pemasukan\nMerah = dominan pengeluaran\nSummary bulanan di atas kalender"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Calendar renders a monthly grid and displays daily totals for income and expense.",
+        "Days visually indicate whether income or expense is dominant using green/red styling.",
+        "Clicking a day opens (inline panel or modal) listing that day’s transactions.",
+        "Monthly summary aggregates match the underlying transactions."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Implement automatic cashflow analysis and insights calculated from the user’s transactions: average monthly income, average monthly expense, month-over-month change insights, largest expense category for the current month, a simple end-of-month balance forecast, and a health indicator (Safe/Warning/Overspending) displayed with modern badges/progress visuals.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "4️⃣ 📈 Analisis Cashflow Otomatis\n... Menghitung rata-rata ...\nMemberikan insight otomatis seperti:\n“Pengeluaran bulan ini naik 12% dibanding bulan lalu”\n“Kategori Makan & Minum paling besar bulan ini”\nPrediksi sederhana saldo akhir bulan (forecast)\nHealth indicator:\nAman\nWaspada\nBoros\nGunakan visual indikator modern (progress bar / badge warna)."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Analytics values (averages, insights, forecast, health indicator) are computed from the authenticated user’s transaction history.",
+        "Month-over-month insight is shown when sufficient data exists; otherwise the UI handles the empty/insufficient case gracefully.",
+        "Health indicator clearly shows one of: Safe, Warning, Overspending, with consistent visual styling.",
+        "Forecast is displayed and updates when transactions change."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Build Category Management UI: list categories by type (income/expense), add/edit/delete categories, and allow selecting a color and optional icon field.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "6️⃣ Manajemen Kategori\nTambah kategori\nEdit kategori\nHapus kategori\nIcon kategori (opsional)\nWarna kategori"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can create, edit, and delete categories.",
+        "Category form supports income/expense type, name, color, and optional icon.",
+        "Categories are immediately available in the transaction form dropdown."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Apply a premium fintech visual design consistently across the app: modern clean minimal layout, deep navy/dark blue primary with emerald green secondary and soft gradient accents, rounded cards, soft shadows with light glassmorphism, responsive mobile-first behavior, smooth transitions/animations, collapsible sidebar navigation, and a working light/dark mode toggle.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "🎨 UI / UX DESIGN REQUIREMENTS\nDesign modern ala fintech (clean, minimal, elegant)\nWarna utama:\nPrimary: Deep Navy / Dark Blue\nSecondary: Emerald Green\nAccent: Soft gradient\nRounded card ...\nSoft shadow & glassmorphism ringan\nFully responsive (Mobile-first)\nSmooth animation & transition\nSidebar navigation (collapsible)\nDark mode & Light mode toggle"
+        ]
+      },
+      "acceptanceCriteria": [
+        "App has a collapsible sidebar and responsive layout that works on mobile and desktop.",
+        "Light mode and dark mode are both available and can be toggled by the user.",
+        "Visual styling matches the specified palette and premium fintech aesthetic across all pages.",
+        "Transitions/animations are subtle and do not hinder usability."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Ensure all user-facing UI copy is in Indonesian across the application (navigation, labels, buttons, empty states, validation errors, and notifications).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "dan seluruh apk wb ini di buat pake bahasa indonesia ya bro"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All visible UI strings are in Indonesian; no English text remains in the main product UI.",
+        "Forms and validation messages display Indonesian text consistently."
+      ]
+    }
+  ],
+  "constraints": [
+    "Use the platform stack only: Motoko backend (single-actor) + React/TypeScript frontend with Tailwind/Shadcn and React Query.",
+    "Do not edit any files under frontend immutablePaths (compose UI components instead of modifying them).",
+    "No external databases or external storage services; persist data and receipt blobs inside the canister.",
+    "Authentication must use Internet Identity (no JWT, no third-party auth providers)."
+  ],
+  "nonGoals": [
+    "Implementing Node.js/Express/PostgreSQL/Prisma/JWT-based architecture.",
+    "Integrations with external cloud storage (S3, GCS) for receipt images.",
+    "Real-time features such as WebSockets or live collaboration."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}
